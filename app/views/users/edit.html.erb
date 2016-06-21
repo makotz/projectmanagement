@@ -1,0 +1,18 @@
+<h1>Edit Info</h1>
+
+<%= form_for @current_user do |f| %>
+  <div>
+    <%= f.label :first_name %>:
+    <%= f.text_field :first_name %>
+  </div>
+  <div>
+    <%= f.label :last_name %>:
+    <%= f.text_field :last_name %>
+  </div>
+  <div>
+    <%= f.label :email %>:
+    <%= f.email_field :email %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<%= link_to "Change Password", edit_path(@current_user) %>

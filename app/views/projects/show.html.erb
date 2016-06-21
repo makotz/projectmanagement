@@ -1,6 +1,55 @@
 <h1><%= @project.title %></h1>
 <%= @project.description %>
 <div>
-<%= link_to "Edit", edit_project_path %>
-<%= link_to "Delete", project_path, method: :delete, data: {confirm: "Are you sure you want to delete this post?"}%>
+<%= link_to "Edit", edit_project_path(@project) %>
+<%= link_to "Delete", project_path(@project), method: :delete, data: {confirm: "Are you sure you want to delete this post?"}%>
+</div><br>
+
+Enter tasks for this project:
+<%= form_for(@task, url: project_tasks_path(@project)) do |e| %>
+<%= e.label :body %>:
+<%= e.text_field :body %>
+<%= e.submit %>
+<% end %>
+
+<ul><%= @project.tasks.each do |task| %>
+  <li><%= task.body %><%=link_to "#{task.completion}", project_completion_path(@project.id, task.id)%></li>
+  <% end %>
+</ul>
+
+<hr>
+<h2>Start a new discussion!</h2>
+<%= form_for(@discussion, url: project_discussions_path(@project)) do |f| %>
+<div>
+<%= f.label :title %>:
+<%= f.text_field :title %>
 </div>
+<div>
+<%= f.label :body %>:
+<%= f.text_field :body %>
+</div>
+<%= f.submit %>
+<% end %>
+<hr>
+
+<h2>Discussions & Comments</h2>
+<%= @project.discussions.each do |dis| %>
+<%= link_to "#{dis.title}", edit_discussion_path(dis) %>:
+<%= dis.body %>
+<%= link_to "Delete Discussion", discussion_path(dis), method: :delete %><br>
+    <%= dis.comments.each do |com| %>
+      <%= com.body %>
+      <%= link_to "edit", edit_comment_path(com) %>:
+      <%= link_to "Delete Comment", comment_path(com), method: :delete %><br>
+      <% end %>
+    <div class = "comment">
+      <%= form_for(@comment, url: discussion_comments_path(dis)) do |f| %>
+      <div>
+        <%= f.label :body %>:
+        <%= f.text_field :body %>
+      </div>
+      <%= f.submit %>
+      <% end %>
+    </div>
+<hr>
+<% end %>

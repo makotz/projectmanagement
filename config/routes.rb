@@ -1,10 +1,22 @@
 Rails.application.routes.draw do
 
+
+  resources :projects do
+    get "/tasks/:id/completion" => "tasks#completion", as: :completion
+    resources :tasks, shallow: true
+    resources :discussions, only: [:create, :edit, :update, :destroy], shallow: true do
+      resources :comments, only: [:create, :edit, :update, :destroy], shallow: true
+    end
+  end
+
   get "/" => "home#index", as: :root
   get "/about" => "home#about"
 
-  resources :projects
 
+  get "/users/:id/edit_password" => "users#edit_password", as: :edit
+  patch "/users/:id/edit_password" => "users#update_password"
+  resources :users
+  resources :sessions
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

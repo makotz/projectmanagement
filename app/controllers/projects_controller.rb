@@ -15,10 +15,14 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find params[:id]
+    @discussion = Discussion.new
+    @comment = Comment.new
+    @task = Task.new
   end
 
   def index
     @projects = Project.all
+
   end
 
   def edit

@@ -1,3 +1,8 @@
 class Comment < ActiveRecord::Base
-    validates(:body, {presence: {message: "must be present!"})
+  belongs_to :discussion
+  belongs_to :project
+  belongs_to :user
+
+  validates(:body, presence: true)
+
 end
